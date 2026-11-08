@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Manillas Coloridas</title>
+<meta name="description" content="Manillas Coloridas by Amelia: diseña manillas de loom bands paso a paso.">
+<meta name="theme-color" content="#d61f6e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Manillas">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<style>
+@font-face{font-family:"Fredoka";font-weight:500;font-display:swap;src:url(fonts/fredoka-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Fredoka";font-weight:600;font-display:swap;src:url(fonts/fredoka-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Nunito";font-weight:400;font-display:swap;src:url(fonts/nunito-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Nunito";font-weight:600;font-display:swap;src:url(fonts/nunito-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Nunito";font-weight:700;font-display:swap;src:url(fonts/nunito-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Nunito";font-weight:800;font-display:swap;src:url(fonts/nunito-latin-800-normal.woff2) format("woff2")}
+/* Layout: una columna para móvil; telar vertical a la izquierda + panel de paso fijo a la derecha */
+:root{
+  --bg:#fbf4f8;
+  --surface:#ffffff;
+  --ink:#2b1631;
+  --muted:#7b6481;
+  --line:#eedde9;
+  --accent:#d61f6e;
+  --accent-soft:#fde3ee;
+  --loom:#e9559f;
+  --post:#b3125d;
+  --display:'Fredoka', ui-rounded, 'Arial Rounded MT Bold', system-ui, sans-serif;
+  --body:'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#170e18; --surface:#221625; --ink:#f7eaf3; --muted:#b59fb6; --line:#3a2a3d;
+    --accent:#ff4f99; --accent-soft:#3d1a2c; --loom:#c93a84; --post:#8e0f4c; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#170e18; --surface:#221625; --ink:#f7eaf3; --muted:#b59fb6; --line:#3a2a3d;
+  --accent:#ff4f99; --accent-soft:#3d1a2c; --loom:#c93a84; --post:#8e0f4c; color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45}
+.wrap > *{min-width:0}
+.wrap{max-width:860px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(56px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left));display:grid;gap:18px}
+header{display:grid;gap:4px}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(1.8rem,7vw,2.5rem);line-height:1.05;margin:0;text-wrap:balance}
+h1 .dot{display:inline-block;width:.55em;height:.55em;border-radius:50%;border:.14em solid var(--accent);margin-left:.08em;vertical-align:.05em}
+header p{margin:0;color:var(--muted);max-width:60ch}
+h2{font-family:var(--display);font-weight:600;font-size:1.25rem;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+h2 .n{font-family:var(--body);font-weight:800;font-size:.75rem;background:var(--accent);color:#fff;border-radius:999px;width:22px;height:22px;display:inline-grid;place-items:center}
+section{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.by{font-family:var(--display);font-weight:500;font-size:.5em;color:var(--accent);display:block;margin-top:2px}
+.install{background:var(--accent-soft);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:.9rem}
+.install[hidden]{display:none}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* Diseños */
+.patterns{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(178px,1fr);gap:10px;overflow-x:auto;padding:2px 2px 6px;scroll-snap-type:x proximity}
+.pcard{scroll-snap-align:start;display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;text-align:left;background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:10px}
+.pcard[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.pcard svg{display:block}
+.pcard strong{display:block;font-family:var(--display);font-weight:600;font-size:1.02rem;line-height:1.15}
+.pill{display:inline-block;font-size:.72rem;font-weight:800;padding:1px 8px;border-radius:999px;margin-top:4px;border:1px solid currentColor}
+.lv-facil{color:#2e8b57}.lv-medio{color:#c47a00}.lv-avanzado{color:var(--accent)}
+.blurb{margin:10px 0 0;color:var(--muted);font-size:.93rem}
+
+/* Ajustes */
+.settings{display:grid;gap:14px}
+.row{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.lbl{font-weight:800;font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:12px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:7px 12px;font-weight:700;font-size:.9rem}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.stepper{display:inline-flex;align-items:center;border:1.5px solid var(--line);border-radius:12px;overflow:hidden}
+.stepper button{border:0;background:transparent;width:36px;height:36px;font-size:1.2rem;font-weight:800}
+.stepper input{width:54px;border:0;background:transparent;text-align:center;font:inherit;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+.role{display:grid;gap:6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:var(--bg);border-radius:999px;padding:3px 8px 3px 4px;font-size:.85rem;font-weight:700}
+.chip .x{opacity:.55;font-weight:800}
+.chip:hover .x{opacity:1}
+.addbtn{border:1.5px dashed var(--muted);background:transparent;border-radius:999px;padding:3px 10px;font-size:.85rem;font-weight:800;color:var(--muted)}
+.palette{display:flex;flex-wrap:wrap;gap:6px;padding:8px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.palette button{width:30px;height:30px;border-radius:50%;border:2px solid rgba(0,0,0,.18);background:var(--c)}
+.sw{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--c);border:2px solid rgba(0,0,0,.25);vertical-align:-2px;margin-right:3px}
+.chip .sw{width:18px;height:18px;margin:0}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+.presets button{border:1px solid var(--line);background:transparent;border-radius:999px;padding:3px 10px;font-size:.8rem;font-weight:700;color:var(--muted)}
+.toggle{display:inline-flex;gap:8px;align-items:center;font-weight:700;font-size:.92rem}
+.toggle input{width:18px;height:18px;accent-color:var(--accent)}
+
+/* Resumen */
+.need{display:grid;grid-template-columns:auto 1fr;gap:14px 18px;align-items:center}
+.big{font-family:var(--display);font-weight:600;font-size:3rem;line-height:1;font-variant-numeric:tabular-nums}
+.big small{display:block;font-family:var(--body);font-size:.8rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
+.counts{display:flex;flex-wrap:wrap;gap:6px}
+.count{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:4px 9px;font-weight:700;font-size:.9rem}
+.count b{font-variant-numeric:tabular-nums}
+.facts{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.fact{border-left:3px solid var(--accent);padding:2px 10px}
+.fact span{display:block;font-size:.75rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.fact b{font-variant-numeric:tabular-nums}
+
+/* Pasos */
+.stage{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start}
+.loombox{display:grid;gap:6px;justify-items:center}
+.loombox svg{display:block;max-width:100%;height:auto}
+.facing{font-size:.72rem;font-weight:800;color:var(--muted);text-align:center;max-width:112px}
+#loomg{transform-box:view-box;transition:transform .7s cubic-bezier(.5,0,.2,1)}
+.steppanel{position:sticky;top:10px;display:grid;gap:10px;min-width:0}
+.ctrls .primary{min-width:0}
+.phases{display:flex;flex-wrap:wrap;gap:6px}
+.phases button{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:3px 10px;font-size:.8rem;font-weight:800;color:var(--muted)}
+.phases button.on{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.stepcard{background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:12px;min-height:150px}
+.stepnum{font-weight:800;font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px}
+.steptext{font-size:1.05rem;margin-top:6px}
+.steptext b{display:inline-block;min-width:1.6em;text-align:center;background:var(--post);color:#fff;border-radius:999px;padding:0 5px;font-size:.9em}
+.ctrls{display:flex;gap:6px;align-items:center}
+.ctrls button{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;height:42px;min-width:40px;padding:0 8px;font-weight:800;font-size:1rem}
+.ctrls button.primary{background:var(--accent);border-color:var(--accent);color:#fff;flex:1}
+input[type=range]{width:100%;accent-color:var(--accent)}
+details{border-top:1px solid var(--line);padding-top:10px}
+summary{font-weight:800;cursor:pointer;color:var(--muted)}
+ol.all{margin:10px 0 0;padding-left:2.2em;max-height:340px;overflow:auto;font-size:.92rem}
+ol.all li{padding:3px 4px;border-radius:8px;cursor:pointer}
+ol.all li.cur{background:var(--accent-soft)}
+ol.all li b{font-weight:800}
+.err{color:#b00020;font-weight:700}
+
+/* 3D */
+.tabs3d{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+#three-wrap{position:relative;height:360px;border-radius:14px;background:radial-gradient(ellipse at 50% 40%,var(--accent-soft),var(--bg) 70%);overflow:hidden;touch-action:none}
+#three-wrap canvas{display:block;width:100%;height:100%}
+.hint3d{font-size:.8rem;color:var(--muted);margin:8px 0 0}
+#three-fallback{padding:20px;color:var(--muted)}
+footer{color:var(--muted);font-size:.82rem;max-width:65ch}
+@media (min-width:720px){
+  #three-wrap{height:440px}
+}
+@media (prefers-reduced-motion: reduce){
+  #loomg{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Manillas Coloridas<span class="dot" aria-hidden="true"></span><span class="by">by Amelia</span></h1>
+    <p>Elige un diseño y tus colores. Te digo cuántas bandas necesitas y te guío paso a paso en tu telar de 24 o 48 postes, con la misma numeración del folleto.</p>
+  </header>
+  <div class="install" id="install" hidden><b>Instálala en tu iPhone:</b> toca el botón Compartir de Safari y luego <b>“Agregar a pantalla de inicio”</b>.</div>
+
+  <section aria-labelledby="h-dis">
+    <h2 id="h-dis"><span class="n">1</span>Diseño</h2>
+    <div class="patterns" id="patterns" role="group" aria-label="Diseños"></div>
+    <p class="blurb" id="blurb"></p>
+  </section>
+
+  <section aria-labelledby="h-aj">
+    <h2 id="h-aj"><span class="n">2</span>Tamaño y colores</h2>
+    <div class="settings" id="settings"></div>
+  </section>
+
+  <section aria-labelledby="h-nec">
+    <h2 id="h-nec"><span class="n">3</span>Necesitas</h2>
+    <div class="need" id="need"></div>
+  </section>
+
+  <section aria-labelledby="h-pas">
+    <h2 id="h-pas"><span class="n">4</span>Paso a paso</h2>
+    <div class="stage">
+      <div class="loombox">
+        <svg id="loomsvg" role="img" aria-label="Telar con las bandas del paso actual"><defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink)"/></marker>
+        </defs><g id="loomg"></g></svg>
+        <div class="facing" id="facing"></div>
+      </div>
+      <div class="steppanel">
+        <div class="phases" id="phases"></div>
+        <div class="stepcard" aria-live="polite">
+          <div class="stepnum"><span id="stepnum"></span><span id="stepphase"></span></div>
+          <div class="steptext" id="steptext"></div>
+        </div>
+        <div class="ctrls">
+          <button id="prev" aria-label="Paso anterior">◀</button>
+          <button id="next" class="primary">Siguiente</button>
+          <button id="play" aria-label="Reproducir pasos">▶︎▶︎</button>
+        </div>
+        <label class="lbl" for="slider" style="text-transform:none;letter-spacing:0">Ir al paso</label>
+        <input type="range" id="slider" min="0" value="0">
+        <details id="alldet"><summary id="allsum">Ver todos los pasos</summary><ol class="all" id="all"></ol></details>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-3d">
+    <h2 id="h-3d"><span class="n">5</span>Modelo 3D</h2>
+    <div class="tabs3d seg" role="group" aria-label="Vista 3D">
+      <button id="v-loom" aria-pressed="true">Telar en este paso</button>
+      <button id="v-brac" aria-pressed="false">Manilla terminada</button>
+    </div>
+    <div id="three-wrap"><div id="three-fallback" hidden>No se pudo cargar el visor 3D en este navegador. El resto de la app funciona igual.</div></div>
+    <p class="hint3d" id="hint3d">Arrastra para girar, pellizca o usa la rueda para acercar. La manilla es una vista aproximada.</p>
+  </section>
+
+  <footer>
+    Medidas aproximadas: una cadena sencilla rinde cerca de 0,6 cm por banda y la cola de pez unas 3 bandas por centímetro. Las bandas cambian según la marca, así que compra unas cuantas de más.
+  </footer>
+</div>
+
+<script src="three.min.js"></script>
+<script id="engine">
+/* ================= MOTOR: telar, patrones y simulación ================= */
+const PALETTE=[
+ {id:'rojo',name:'rojo',hex:'#e53935'},
+ {id:'naranja',name:'naranja',hex:'#fb8c00'},
+ {id:'amarillo',name:'amarillo',hex:'#fdd835'},
+ {id:'lima',name:'verde lima',hex:'#b2d235'},
+ {id:'verde',name:'verde',hex:'#2e9e4f'},
+ {id:'turquesa',name:'turquesa',hex:'#12b5c9'},
+ {id:'azul',name:'azul',hex:'#1e6fe0'},
+ {id:'marino',name:'azul oscuro',hex:'#283593'},
+ {id:'morado',name:'morado',hex:'#8e2fb0'},
+ {id:'lila',name:'lila',hex:'#c39be6'},
+ {id:'rosado',name:'rosado',hex:'#f7a1c4'},
+ {id:'fucsia',name:'fucsia',hex:'#e0177a'},
+ {id:'blanco',name:'blanco',hex:'#f7f5f2'},
+ {id:'negro',name:'negro',hex:'#26232a'}
+];
+const PAL=Object.fromEntries(PALETTE.map(c=>[c.id,c]));
+const PRESETS={
+ 'Arcoíris':['rojo','naranja','amarillo','verde','azul','morado'],
+ 'Océano':['marino','azul','turquesa','blanco'],
+ 'Atardecer':['amarillo','naranja','rojo','fucsia'],
+ 'Dulce':['rosado','lila','blanco'],
+ 'Bosque':['verde','lima','amarillo']
+};
+/* Numeración del telar: fila k (0-15) tiene los postes 3k+1, 3k+2 (central, adelantado medio paso hacia la pestaña) y 3k+3 */
+const L=k=>3*k+1, C=k=>3*k+2, R=k=>3*k+3;
+const pk=id=>Math.floor((id-1)/3), pc=id=>(id-1)%3;
+const postXY=id=>({x:pc(id)-1, y:pc(id)===1? pk(id)-0.5 : pk(id)});
+const cyc=(a,i)=>a[((i%a.length)+a.length)%a.length];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const tc=id=>`[[${id}]]`;
+const tb=n=>`<b>${n}</b>`;
+
+class Builder{
+ constructor(){this.steps=[];this.bands=[];this.extColors=[];}
+ _band(o){const b=Object.assign({id:this.bands.length,count:1},o);this.bands.push(b);return b.id;}
+ place(a,b,color,text,opt={}){const id=this._band({kind:'band',posts:[a,b],color,count:opt.count||1});this.steps.push({type:'place',band:id,focus:[a,b],phase:'place',text});return id;}
+ tri(ps,color,text){const id=this._band({kind:'tri',posts:ps.slice(),color});this.steps.push({type:'place',band:id,focus:ps.slice(),phase:'place',text});return id;}
+ cap(p,color,text){const id=this._band({kind:'cap',posts:[p],color});this.steps.push({type:'place',band:id,focus:[p],phase:'place',text});return id;}
+ rotate(text){this.steps.push({type:'rotate',focus:[],phase:'rotate',text});}
+ pick(id,from,to,text){this.steps.push({type:'pick',band:id,from,to,focus:[from,to],phase:'loop',text});}
+ note(text,focus=[],phase='finish'){this.steps.push({type:'note',focus,phase,text});}
+ done(preview){return {steps:this.steps,bands:this.bands,extColors:this.extColors,preview};}
+}
+
+function rotText(p){return `Gira el telar media vuelta: ahora el extremo de la muesca (donde está el poste ${tb(p)}) queda hacia ti. Desde aquí se teje de regreso hacia el inicio.`;}
+function capText(p,col){return `Banda tapa: tuerce una banda ${tc(col)} en forma de 8, dóblala sobre sí misma (queda como dos aros) y ponla en el poste ${tb(p)}.`;}
+
+function finishSteps(B,cfg,p,otherEnd,extCols){
+ B.note(`Mete el gancho por todos los lazos que quedaron en el poste ${tb(p)} y sácalos del poste; déjalos en el gancho.`,[p]);
+ if(cfg.ext>0){
+  for(let i=0;i<cfg.ext;i++)B.extColors.push(cyc(extCols,i));
+  const uniq=[...new Set(B.extColors)].map(tc).join(', ');
+  B.note(`Extensión de ${cfg.ext} ${cfg.ext===1?'banda':'bandas'} (${uniq}): engancha una banda nueva por la mitad y pásala por dentro de los lazos del gancho, de modo que sus dos puntas queden en el gancho. Repite con cada banda nueva a través de la anterior.`,[]);
+ }
+ B.note(`Pon el clip S en los lazos del gancho${cfg.ext?' (las dos puntas de la última banda)':''}. Luego levanta la manilla del telar con cuidado, empezando por el otro extremo.`,[p]);
+ B.note(`Engancha el otro lado del clip en ${otherEnd}. ¡Manilla lista!`,[]);
+}
+
+function chainBuild(cfg,count){
+ const B=new Builder(), N=cfg.rows, seq=cfg.colors.seq, P=[];
+ for(let k=0;k<N;k++)P.push(C(k),R(k));
+ const ids=[];
+ for(let i=0;i<P.length-1;i++){
+  const col=cyc(seq,i);
+  ids.push(B.place(P[i],P[i+1],col, count===1
+   ?`Coloca una banda ${tc(col)} entre los postes ${tb(P[i])} y ${tb(P[i+1])}.`
+   :`Coloca dos bandas ${tc(col)} juntas entre los postes ${tb(P[i])} y ${tb(P[i+1])}.`,{count}));
+ }
+ B.rotate(rotText(P[P.length-1]));
+ for(let i=P.length-3;i>=0;i--){
+  const col=cyc(seq,i);
+  B.pick(ids[i],P[i+1],P[i],`Poste ${tb(P[i+1])}: baja el gancho por el canal en U, toma ${count===1?'la banda':'las dos bandas'} ${tc(col)} de abajo y ${count===1?'súbela':'súbelas'} al poste ${tb(P[i])}.`);
+ }
+ finishSteps(B,cfg,P[0],`la banda del otro extremo (la que estaba en los postes ${tb(P[P.length-2])} y ${tb(P[P.length-1])})`,seq);
+ return B.done({kind:'chain',double:count===2,links:ids.map(id=>B.bands[id].color).concat(B.extColors)});
+}
+
+function fishtailBuild(cfg){
+ const B=new Builder(), T=cfg.total, seq=cfg.colors.seq, A=2, Z=5;
+ const c0=cyc(seq,0);
+ const id0=B._band({kind:'band',posts:[A,Z],color:c0,twist:true});
+ B.steps.push({type:'place',band:id0,focus:[A,Z],phase:'place',text:`Tuerce una banda ${tc(c0)} en forma de 8 y colócala en los postes ${tb(A)} y ${tb(Z)} (la cruz queda entre los dos postes).`});
+ B.place(A,Z,cyc(seq,1),`Coloca una banda ${tc(cyc(seq,1))} encima, sin torcer, en los postes ${tb(A)} y ${tb(Z)}.`);
+ B.place(A,Z,cyc(seq,2),`Coloca otra banda ${tc(cyc(seq,2))} encima, también sin torcer.`);
+ for(let i=3;i<T;i++){
+  const col=cyc(seq,i);
+  const id=B._band({kind:'band',posts:[A,Z],color:col});
+  B.steps.push({type:'ftRound',posts:[A,Z],add:id,focus:[A,Z],phase:'loop',text:`Toma la banda de abajo del poste ${tb(A)}, pásala por encima del poste y suéltala al centro. Haz lo mismo en el poste ${tb(Z)}. Luego coloca una banda nueva ${tc(col)} encima, sin torcer. (Banda ${i+1} de ${T})`});
+ }
+ B.steps.push({type:'ftRound',posts:[A,Z],add:null,focus:[A,Z],phase:'finish',text:`Ya no pongas más bandas. Pasa la banda de abajo por encima en los postes ${tb(A)} y ${tb(Z)}: quedan 2 bandas.`});
+ B.steps.push({type:'ftRound',posts:[A,Z],add:null,focus:[A,Z],phase:'finish',text:`Repite una vez más en los dos postes: queda 1 sola banda.`});
+ B.note(`Pasa el lazo del poste ${tb(Z)} al poste ${tb(A)}. Mete el gancho por los dos lazos del poste ${tb(A)} y saca la manilla del telar.`,[A,Z]);
+ B.note(`Pon el clip S en esos dos lazos y engancha el otro lado en la primera banda (la del 8). ¡Manilla lista!`,[]);
+ return B.done({kind:'fishtail',links:B.bands.map(b=>b.color)});
+}
+
+function tripleBuild(cfg){
+ const B=new Builder(), N=cfg.rows, col=cfg.colors;
+ const Lp=[C(0)], Rp=[C(0)], Cp=[];
+ for(let k=0;k<=N-2;k++){Lp.push(L(k));Rp.push(R(k));}
+ Lp.push(C(N-1));Rp.push(C(N-1));
+ for(let k=0;k<N;k++)Cp.push(C(k));
+ const lid=[],rid=[],cid=[];
+ for(let j=0;j<Lp.length-1;j++){const c=cyc(col.left,j);lid.push(B.place(Lp[j],Lp[j+1],c,`Columna 1·4·7: banda ${tc(c)} del poste ${tb(Lp[j])} al poste ${tb(Lp[j+1])}.`));}
+ for(let j=0;j<Rp.length-1;j++){const c=cyc(col.right,j);rid.push(B.place(Rp[j],Rp[j+1],c,`Columna 3·6·9: banda ${tc(c)} del poste ${tb(Rp[j])} al poste ${tb(Rp[j+1])}.`));}
+ for(let j=0;j<Cp.length-1;j++){const c=cyc(col.center,j);cid.push(B.place(Cp[j],Cp[j+1],c,`Centro: banda ${tc(c)} recta del poste ${tb(Cp[j])} al poste ${tb(Cp[j+1])}.`));}
+ const unions=[];
+ if(cfg.opts.union){
+  for(let k=1;k<=N-3;k++){const c=col.union[0];B.tri([L(k),C(k+1),R(k)],c,`Banda de unión ${tc(c)}: estírala en triángulo sobre los postes ${tb(L(k))}, ${tb(C(k+1))} y ${tb(R(k))}.`);unions.push(c);}
+ }
+ const capC=col.cap[0];
+ B.cap(C(N-1),capC,capText(C(N-1),capC));
+ B.rotate(rotText(C(N-1)));
+ for(let j=Cp.length-2;j>=0;j--){
+  const c=cyc(col.center,j);
+  B.pick(cid[j],Cp[j+1],Cp[j], j===Cp.length-2
+   ?`Poste ${tb(Cp[j+1])}: empuja la tapa hacia atrás, toma la banda central ${tc(c)} y súbela recto al poste ${tb(Cp[j])}.`
+   :`Poste ${tb(Cp[j+1])}: toma la banda central ${tc(c)} (la que va recto) y súbela al poste ${tb(Cp[j])}.`);
+ }
+ const side=(P,ids,arr,name)=>{
+  for(let j=P.length-2;j>=0;j--){
+   const c=cyc(arr,j);
+   B.pick(ids[j],P[j+1],P[j], j===P.length-2
+    ?`Vuelve al poste ${tb(P[j+1])} (el de la tapa): toma la banda ${tc(c)} que va en diagonal hacia la columna ${name} y súbela al poste ${tb(P[j])}.`
+    :`Poste ${tb(P[j+1])}: toma la banda ${tc(c)} de abajo y súbela al poste ${tb(P[j])}.`);
+  }
+ };
+ side(Lp,lid,col.left,'1·4·7');
+ side(Rp,rid,col.right,'3·6·9');
+ finishSteps(B,cfg,C(0),`la banda tapa del poste ${tb(C(N-1))}`,col.center);
+ return B.done({kind:'triple',left:lid.map(i=>B.bands[i].color),center:cid.map(i=>B.bands[i].color),right:rid.map(i=>B.bands[i].color),unions,cap:capC,ext:B.extColors});
+}
+
+function starburstBuild(cfg){
+ const B=new Builder(), N=cfg.rows, col=cfg.colors;
+ const Lp=[C(0)], Rp=[C(0)];
+ for(let k=0;k<=N-2;k++){Lp.push(L(k));Rp.push(R(k));}
+ Lp.push(C(N-1));Rp.push(C(N-1));
+ const lid=[],rid=[];
+ for(let j=0;j<Lp.length-1;j++){const c=cyc(col.border,j);lid.push(B.place(Lp[j],Lp[j+1],c,`Borde, columna 1·4·7: banda ${tc(c)} del poste ${tb(Lp[j])} al poste ${tb(Lp[j+1])}.`));}
+ for(let j=0;j<Rp.length-1;j++){const c=cyc(col.border,j);rid.push(B.place(Rp[j],Rp[j+1],c,`Borde, columna 3·6·9: banda ${tc(c)} del poste ${tb(Rp[j])} al poste ${tb(Rp[j+1])}.`));}
+ const stars=[];
+ let s=0;
+ for(let k=1;k<=N-2;k+=2){
+  const c=cyc(col.stars,s);
+  const outs=[C(k+1),R(k),R(k-1),C(k-1),L(k-1),L(k)];
+  const ids=outs.map((q,j)=>B.place(C(k),q,c,`Estrella ${s+1}, banda ${j+1} de 6: ${tc(c)} desde el centro (poste ${tb(C(k))}) hasta el poste ${tb(q)}.`));
+  stars.push({k,c,ids,outs});s++;
+ }
+ const capC=col.cap[0];
+ stars.forEach(st=>B.cap(C(st.k),capC,capText(C(st.k),capC)));
+ B.cap(C(N-1),capC,capText(C(N-1),capC)+' Es el poste que sigue a la última estrella.');
+ B.rotate(rotText(C(N-1)));
+ for(let i=stars.length-1;i>=0;i--){
+  const st=stars[i], k=st.k;
+  B.pick(st.ids[0],C(k+1),C(k), i===stars.length-1
+   ?`Poste ${tb(C(k+1))}: empuja la tapa, toma la banda ${tc(st.c)} de la estrella y súbela al centro de la estrella, poste ${tb(C(k))}.`
+   :`Poste ${tb(C(k+1))}: toma la banda ${tc(st.c)} de abajo, pásala por dentro del lazo que ya está en ese poste y súbela al centro de la estrella, poste ${tb(C(k))}.`);
+  for(let j=1;j<6;j++){
+   B.pick(st.ids[j],C(k),st.outs[j],`Estrella ${i+1}: mete el gancho por dentro de la tapa del poste ${tb(C(k))}, toma la banda ${tc(st.c)} que va al poste ${tb(st.outs[j])} y llévala a ese poste.`);
+  }
+ }
+ const side=(P,ids,name)=>{
+  for(let j=P.length-2;j>=0;j--){
+   const c=cyc(col.border,j);
+   B.pick(ids[j],P[j+1],P[j], j===P.length-2
+    ?`Borde: vuelve al poste ${tb(P[j+1])}, empuja la tapa, toma la banda ${tc(c)} que va hacia la columna ${name} y súbela al poste ${tb(P[j])}.`
+    :`Borde: poste ${tb(P[j+1])}, toma la banda ${tc(c)} de abajo y súbela al poste ${tb(P[j])}.`);
+  }
+ };
+ side(Lp,lid,'1·4·7');
+ side(Rp,rid,'3·6·9');
+ finishSteps(B,cfg,C(0),`la banda tapa del poste ${tb(C(N-1))}`,col.border);
+ return B.done({kind:'starburst',border:lid.map(i=>B.bands[i].color),borderR:rid.map(i=>B.bands[i].color),stars:stars.map(s=>s.c),cap:capC,ext:B.extColors});
+}
+
+const PATTERNS={
+ single:{name:'Cadena sencilla',level:'Fácil',blurb:'La del folleto (método 1): bandas en zigzag entre la fila central y la columna 3·6·9. Ideal para empezar.',
+  roles:[{key:'seq',label:'Colores en orden (se repiten)',multi:true}],
+  defaults:{seq:['rojo','naranja','amarillo','verde','azul','morado']},
+  size(t,maxR){const n=clamp(Math.ceil((t/0.6+1)/2),3,maxR);const len=(2*n-1)*0.6;const ext=Math.max(0,Math.ceil((t-len)/0.6-1e-9));return {rows:n,ext,len:len+ext*0.6};},
+  build:cfg=>chainBuild(cfg,1)},
+ double:{name:'Cadena doble',level:'Fácil',blurb:'Igual que la sencilla, pero con dos bandas juntas en cada lugar. Queda más gruesa y resistente.',
+  roles:[{key:'seq',label:'Colores en orden (se repiten)',multi:true}],
+  defaults:{seq:['turquesa','blanco']},
+  size(t,maxR){return PATTERNS.single.size(t,maxR);},
+  build:cfg=>chainBuild(cfg,2)},
+ fishtail:{name:'Cola de pez',level:'Fácil',blurb:'Se teje en solo dos postes (2 y 5), pasando la banda de abajo por encima. Queda tupida y redonda.',
+  roles:[{key:'seq',label:'Colores en orden (se repiten)',multi:true}],
+  defaults:{seq:['fucsia','rosado','blanco']},
+  size(t){const total=clamp(Math.round(t*3),12,120);return {rows:2,ext:0,total,len:total/3};},
+  build:fishtailBuild},
+ triple:{name:'Triple sencilla',level:'Medio',blurb:'Tres cadenas sencillas en paralelo (columna 1·4·7, centro y columna 3·6·9) unidas por una banda tapa y bandas de unión.',
+  roles:[{key:'left',label:'Columna 1·4·7',multi:true},{key:'center',label:'Centro',multi:true},{key:'right',label:'Columna 3·6·9',multi:true},{key:'union',label:'Bandas de unión',multi:false,opt:'union'},{key:'cap',label:'Banda tapa',multi:false}],
+  options:[{key:'union',label:'Bandas de unión en triángulo (más firme)',default:true}],
+  defaults:{left:['azul'],center:['blanco'],right:['azul'],union:['amarillo'],cap:['blanco']},
+  size(t,maxR){const n=clamp(Math.ceil(t/1.15)+1,4,maxR);const len=(n-1)*1.15;const ext=Math.max(0,Math.ceil((t-len)/0.6-1e-9));return {rows:n,ext,len:len+ext*0.6};},
+  build:tripleBuild},
+ starburst:{name:'Estrellas (Starburst)',level:'Avanzado',blurb:'Un borde en las dos columnas exteriores y estrellas de 6 bandas en los postes centrales, cada una sujeta con banda tapa.',
+  roles:[{key:'border',label:'Borde',multi:true},{key:'stars',label:'Estrellas (una por color, en orden)',multi:true},{key:'cap',label:'Bandas tapa',multi:false}],
+  defaults:{border:['negro'],stars:['rojo','amarillo','verde','azul','morado','fucsia','naranja'],cap:['blanco']},
+  size(t,maxR){const mx=maxR%2?maxR:maxR-1;let n=clamp(Math.ceil(t/1.2)+1,5,mx);if(n%2===0)n=n+1<=mx?n+1:n-1;const len=(n-1)*1.2;const ext=Math.max(0,Math.ceil((t-len)/0.6-1e-9));return {rows:n,ext,len:len+ext*0.6};},
+  build:starburstBuild}
+};
+
+/* Simula los pasos 0..upto y devuelve el estado del telar */
+function simulate(plan,upto){
+ const st={bands:{},stacks:{},rotated:false,woven:[],errors:[]};
+ const push=(p,id,e)=>{(st.stacks[p]||(st.stacks[p]=[])).push([id,e]);};
+ const add=id=>{const def=plan.bands[id];const b={id,def,ends:def.posts.slice()};st.bands[id]=b;b.ends.forEach((p,e)=>push(p,id,e));};
+ for(let i=0;i<=upto&&i<plan.steps.length;i++){
+  const s=plan.steps[i];
+  if(s.type==='place')add(s.band);
+  else if(s.type==='rotate')st.rotated=true;
+  else if(s.type==='pick'){
+   const b=st.bands[s.band];const stack=st.stacks[s.from]||[];
+   const idx=b?stack.findIndex(([id,e])=>id===s.band&&b.ends[e]===s.from):-1;
+   if(idx<0){st.errors.push('missing@'+i);continue;}
+   if(idx===stack.length-1)st.errors.push('top@'+i);
+   const e=stack[idx][1];stack.splice(idx,1);b.ends[e]=s.to;push(s.to,s.band,e);
+  }
+  else if(s.type==='ftRound'){
+   for(const p of s.posts){const stack=st.stacks[p]||[];const ent=stack.shift();if(ent){const b=st.bands[ent[0]];b.ends[ent[1]]=null;if(b.ends.every(x=>x===null)){b.woven=true;st.woven.push(b.id);}}}
+   if(s.add!=null)add(s.add);
+  }
+ }
+ return st;
+}
+function bandCounts(plan){
+ const m={};
+ plan.bands.forEach(b=>{m[b.color]=(m[b.color]||0)+(b.count||1);});
+ plan.extColors.forEach(c=>{m[c]=(m[c]||0)+1;});
+ return m;
+}
+if(typeof module!=='undefined')module.exports={PATTERNS,simulate,bandCounts,PAL};
+</script>
+<script>
+/* ================= INTERFAZ ================= */
+const $=s=>document.querySelector(s);
+const PHASES={place:'Colocar',rotate:'Girar',loop:'Tejer',finish:'Terminar'};
+const state={pattern:'single',loom:48,wrist:16,colors:{},opts:{},step:0,view:'loom',openRole:null};
+for(const [k,p] of Object.entries(PATTERNS)){state.colors[k]=JSON.parse(JSON.stringify(p.defaults));state.opts[k]={};(p.options||[]).forEach(o=>state.opts[k][o.key]=o.default);}
+try{const sv=JSON.parse(localStorage.getItem('loombands-v1')||'null');if(sv&&PATTERNS[sv.pattern]){state.pattern=sv.pattern;state.loom=sv.loom===24?24:48;state.wrist=clamp(+sv.wrist||16,8,30);for(const k in sv.colors)if(state.colors[k])Object.assign(state.colors[k],sv.colors[k]);for(const k in sv.opts)if(state.opts[k])Object.assign(state.opts[k],sv.opts[k]);}}catch(e){}
+function save(){try{localStorage.setItem('loombands-v1',JSON.stringify({pattern:state.pattern,loom:state.loom,wrist:state.wrist,colors:state.colors,opts:state.opts}));}catch(e){}}
+
+let plan,size,curState;
+const maxRows=()=>state.loom===48?16:8;
+function buildFor(key,overrideRows){
+ const p=PATTERNS[key];const t=state.wrist+0.5;
+ const sz=p.size(t,maxRows());
+ if(overrideRows){sz.rows=overrideRows;sz.ext=0;}
+ const cfg={rows:sz.rows,ext:sz.ext,total:sz.total,colors:state.colors[key],opts:state.opts[key]};
+ const pl=p.build(cfg);pl.cfg=cfg;return {pl,sz};
+}
+function recompute(){
+ const r=buildFor(state.pattern);plan=r.pl;size=r.sz;
+ state.step=clamp(state.step,0,plan.steps.length-1);
+}
+const hexOf=id=>(PAL[id]||PAL.blanco).hex;
+const swatch=id=>`<span class="sw" style="--c:${hexOf(id)}"></span>`;
+const renderText=t=>t.replace(/\[\[(\w+)\]\]/g,(m,id)=>`${swatch(id)}${(PAL[id]||{name:id}).name}`);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- SVG del telar ---------- */
+function stadium(p,q,r){
+ const dx=q.x-p.x,dy=q.y-p.y,l=Math.hypot(dx,dy)||1,nx=-dy/l*r,ny=dx/l*r;
+ return `M${p.x+nx},${p.y+ny} L${q.x+nx},${q.y+ny} A${r},${r} 0 0 0 ${q.x-nx},${q.y-ny} L${p.x-nx},${p.y-ny} A${r},${r} 0 0 0 ${p.x+nx},${p.y+ny} Z`;
+}
+function loomGeom(R,mini,tail){
+ const U=mini?13:34, XS=mini?11:28, PR=mini?4.2:9.5, pad=mini?7:14;
+ const side=mini?PR+4:PR+12;
+ const tw=tail?50:0;
+ const W=pad*2+XS*2+side*2+tw;
+ const cx=pad+side+XS;
+ const top=pad+side;
+ const H=top+(R-0.5)*U+side+pad;
+ const pos=id=>{const {x,y}=postXY(id);return {x:cx+x*XS,y:top+(R-1-y)*U};};
+ return {U,XS,PR,pad,side,W,H,cx,top,pos,tw};
+}
+function loomSVGContent(st,step,R,{mini=false,tail=false}={}){
+ const G=loomGeom(R,mini,tail);const {PR,cx,top,pos,XS,U,side}=G;
+ const out=[];
+ // base del telar
+ const x0=cx-XS-side, x1=cx+XS+side, y0=top-side+2, yL0=pos(1).y, yC0=pos(2).y;
+ out.push(`<path d="M${x0+10},${y0} H${cx-8} l8,${mini?5:10} l8,${mini?-5:-10} H${x1-10} q10,0 10,10 V${yL0+side-10} q0,10 -10,10 H${cx+PR+(mini?4:9)} V${yC0+side-(mini?4:8)} q0,${mini?4:8} -${mini?4:8},${mini?4:8} H${cx-PR-(mini?0:1)} q-${mini?4:8},0 -${mini?4:8},-${mini?4:8} V${yL0+side} H${x0+10} q-10,0 -10,-10 V${y0+10} q0,-10 10,-10 Z" fill="var(--loom)"/>`);
+ if(!mini&&R>8){const yj=top+(R-1-7.5)*U;out.push(`<line x1="${x0+3}" x2="${x1-3}" y1="${yj}" y2="${yj}" stroke="var(--post)" stroke-width="1.5" stroke-dasharray="4 4" opacity=".7"/>`);}
+ const maxId=3*R;
+ for(let id=1;id<=maxId;id++){const p=pos(id);out.push(`<circle cx="${p.x}" cy="${p.y}" r="${PR}" fill="var(--post)"/>`);}
+ // bandas
+ const hl=step&&step.band!=null?step.band:(step&&step.type==='ftRound'?step.add:null);
+ const loopIdx={};
+ const draw=(b,isHl)=>{
+  const hex=hexOf(b.def.color);
+  const ends=b.ends.filter(e=>e!=null);
+  if(!ends.length||b.woven)return;
+  const uniq=[...new Set(ends)];
+  const w=mini?1.6:3.1, ow=mini?2.6:5.2;
+  const stroke=(d,extra='')=>`<path d="${d}" fill="none" stroke="rgba(30,0,25,.5)" stroke-width="${isHl?ow+2.5:ow}" stroke-linejoin="round"${extra}/><path d="${d}" fill="none" stroke="${hex}" stroke-width="${isHl?w+1.6:w}" stroke-linejoin="round"${isHl?' class="hlb"':''}/>`;
+  if(b.def.kind==='cap'||uniq.length===1){
+   const p=pos(uniq[0]);const n=(loopIdx[uniq[0]]=(loopIdx[uniq[0]]||0)+1);
+   const r1=PR+(mini?1.5:3)+(n-1)*(mini?1.4:2.6);
+   const circ=r=>`M${p.x-r},${p.y} a${r},${r} 0 1 0 ${2*r},0 a${r},${r} 0 1 0 ${-2*r},0`;
+   out.push(stroke(circ(r1))+stroke(circ(r1+(mini?1.2:2.2))));
+  } else if(uniq.length===3){
+   const ps=uniq.map(pos);const cxm=(ps[0].x+ps[1].x+ps[2].x)/3,cym=(ps[0].y+ps[1].y+ps[2].y)/3;
+   const ex=ps.map(p=>{const dx=p.x-cxm,dy=p.y-cym,l=Math.hypot(dx,dy)||1;return {x:p.x+dx/l*(PR+3),y:p.y+dy/l*(PR+3)};});
+   out.push(stroke(`M${ex[0].x},${ex[0].y} L${ex[1].x},${ex[1].y} L${ex[2].x},${ex[2].y} Z`));
+  } else {
+   const p=pos(uniq[0]),q=pos(uniq[1]);
+   if((b.def.count||1)>1){out.push(stroke(stadium(p,q,PR+1))+stroke(stadium(p,q,PR+(mini?2.5:4.5))));}
+   else if(b.def.twist&&!mini){
+    const dx=q.x-p.x,dy=q.y-p.y,l=Math.hypot(dx,dy),nx=-dy/l*(PR+2),ny=dx/l*(PR+2);
+    const mx=(p.x+q.x)/2,my=(p.y+q.y)/2;
+    out.push(stroke(`M${mx},${my} C${p.x+nx*1.2},${p.y+ny*1.2} ${p.x-dx/l*20},${p.y-dy/l*20} ${p.x},${p.y-0} M${mx},${my} C${p.x-nx*1.2},${p.y-ny*1.2} ${p.x-dx/l*20},${p.y-dy/l*20} ${p.x},${p.y} M${mx},${my} C${q.x-nx*1.2},${q.y-ny*1.2} ${q.x+dx/l*20},${q.y+dy/l*20} ${q.x},${q.y} M${mx},${my} C${q.x+nx*1.2},${q.y+ny*1.2} ${q.x+dx/l*20},${q.y+dy/l*20} ${q.x},${q.y}`));
+   }
+   else out.push(stroke(stadium(p,q,PR+(mini?1:2.5))));
+  }
+ };
+ const list=Object.values(st.bands).sort((a,b)=>a.id-b.id);
+ list.forEach(b=>{if(b.id!==hl)draw(b,false);});
+ if(hl!=null&&st.bands[hl])draw(st.bands[hl],true);
+ // cola de pez
+ if(tail&&st.woven.length){
+  const tx=cx+XS+side+22, y2=pos(2).y;const maxShow=Math.floor((G.H-40)/7);
+  const w=st.woven.slice(-maxShow);
+  w.forEach((id,i)=>{const hex=hexOf(st.bands[id].def.color);const y=y2-i*7;out.push(`<path d="M${tx-11},${y-4} Q${tx},${y+6} ${tx+11},${y-4}" fill="none" stroke="rgba(30,0,25,.5)" stroke-width="5.5" stroke-linecap="round"/><path d="M${tx-11},${y-4} Q${tx},${y+6} ${tx+11},${y-4}" fill="none" stroke="${hex}" stroke-width="3.4" stroke-linecap="round"/>`);});
+  out.push(`<text x="${tx}" y="${y2+20}" text-anchor="middle" font-size="10" font-weight="800" fill="var(--muted)" class="flip" data-x="${tx}" data-y="${y2+20}">${st.woven.length} tejidas</text>`);
+ }
+ if(!mini&&step){
+  (step.focus||[]).forEach(f=>{const p=pos(f);out.push(`<circle cx="${p.x}" cy="${p.y}" r="${PR+6}" fill="none" stroke="var(--ink)" stroke-width="1.8" stroke-dasharray="3 3"/>`);});
+  if(step.type==='pick'){
+   const a=pos(step.from),b=pos(step.to);const mx=(a.x+b.x)/2,my=(a.y+b.y)/2;const dx=b.x-a.x,dy=b.y-a.y,l=Math.hypot(dx,dy)||1;
+   const off=Math.min(22,l*.45)+6;const qx=mx-dy/l*off,qy=my+dx/l*off;
+   const sx=a.x+dx/l*(PR*0.3),sy=a.y+dy/l*(PR*0.3),ex=b.x-dx/l*(PR+2),ey=b.y-dy/l*(PR+2);
+   out.push(`<path d="M${sx},${sy} Q${qx},${qy} ${ex},${ey}" fill="none" stroke="var(--surface)" stroke-width="6" stroke-linecap="round"/><path d="M${sx},${sy} Q${qx},${qy} ${ex},${ey}" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" marker-end="url(#ah)"/>`);
+  }
+ }
+ if(!mini){for(let id=1;id<=maxId;id++){const p=pos(id);out.push(`<text x="${p.x}" y="${p.y+3.3}" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff" stroke="var(--post)" stroke-width="2.6" paint-order="stroke" class="flip" data-x="${p.x}" data-y="${p.y}">${id}</text>`);}}
+ return {html:out.join(''),G};
+}
+
+/* ---------- render ---------- */
+function thumbSVG(key){
+ const p=PATTERNS[key];
+ if(key==='fishtail'){
+  const cols=state.colors.fishtail.seq;let s='';for(let i=0;i<9;i++){const y=12+i*9;const c=hexOf(cyc(cols,i));s+=`<path d="M14,${y} Q26,${y+9} 38,${y}" fill="none" stroke="rgba(30,0,25,.45)" stroke-width="5" stroke-linecap="round"/><path d="M14,${y} Q26,${y+9} 38,${y}" fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round"/>`;}
+  return `<svg width="52" height="100" viewBox="0 0 52 100" aria-hidden="true">${s}</svg>`;
+ }
+ const rows=key==='starburst'?5:key==='triple'?5:5;
+ const {pl}=buildFor(key,rows);
+ const ri=pl.steps.findIndex(s=>s.type==='rotate');
+ const st=simulate(pl,ri);
+ const {html,G}=loomSVGContent(st,null,rows,{mini:true});
+ return `<svg width="${G.W}" height="${G.H}" viewBox="0 0 ${G.W} ${G.H}" aria-hidden="true">${html}</svg>`;
+}
+function renderPatterns(){
+ $('#patterns').innerHTML=Object.entries(PATTERNS).map(([k,p])=>`<button class="pcard" data-k="${k}" aria-pressed="${k===state.pattern}">${thumbSVG(k)}<span><strong>${p.name}</strong><span class="pill lv-${p.level.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()}">${p.level}</span></span></button>`).join('');
+ $('#blurb').textContent=PATTERNS[state.pattern].blurb;
+}
+function renderSettings(){
+ const p=PATTERNS[state.pattern];const cols=state.colors[state.pattern];const opts=state.opts[state.pattern];
+ let h=`<div class="row"><span class="lbl">Telar</span><div class="seg" role="group" aria-label="Tamaño del telar"><button data-loom="24" aria-pressed="${state.loom===24}">1 telar · 24</button><button data-loom="48" aria-pressed="${state.loom===48}">2 telares · 48</button></div></div>`;
+ h+=`<div class="row"><label class="lbl" for="wrist">Muñeca (cm)</label><div class="stepper"><button data-w="-1" aria-label="Menos">−</button><input id="wrist" type="number" inputmode="decimal" min="8" max="30" step="0.5" value="${state.wrist}"><button data-w="1" aria-label="Más">+</button></div></div>`;
+ (p.options||[]).forEach(o=>{h+=`<label class="toggle"><input type="checkbox" id="opt-${o.key}" data-opt="${o.key}" ${opts[o.key]?'checked':''}>${o.label}</label>`;});
+ const firstMulti=p.roles.find(r=>r.multi);
+ p.roles.forEach(r=>{
+  if(r.opt&&!opts[r.opt])return;
+  const list=cols[r.key];
+  h+=`<div class="role"><span class="lbl">${r.label}</span><div class="chips">`;
+  h+=list.map((c,i)=>`<button class="chip" data-role="${r.key}" data-rm="${i}" aria-label="${r.multi&&list.length>1?'Quitar '+PAL[c].name:PAL[c].name}">${swatch(c)}${PAL[c].name}${r.multi&&list.length>1?' <span class="x">×</span>':''}</button>`).join('');
+  h+=`<button class="addbtn" data-open="${r.key}" aria-expanded="${state.openRole===r.key}">${r.multi?'+ color':'cambiar'}</button></div>`;
+  if(state.openRole===r.key){h+=`<div class="palette">${PALETTE.map(c=>`<button data-role="${r.key}" data-add="${c.id}" style="--c:${c.hex}" aria-label="${c.name}" title="${c.name}"></button>`).join('')}</div>`;}
+  if(r===firstMulti){h+=`<div class="presets">${Object.keys(PRESETS).map(n=>`<button data-preset="${n}" data-role="${r.key}">${n}</button>`).join('')}</div>`;}
+  h+=`</div>`;
+ });
+ $('#settings').innerHTML=h;
+}
+function renderNeed(){
+ const m=bandCounts(plan);const total=Object.values(m).reduce((a,b)=>a+b,0);
+ const ordered=PALETTE.filter(c=>m[c.id]);
+ const R=plan.cfg.rows;
+ let posts;
+ if(state.pattern==='fishtail')posts='Solo 2 (postes 2 y 5)';
+ else {const used=new Set();plan.bands.forEach(b=>b.posts.forEach(p=>used.add(p)));const mx=Math.max(...used);posts=`${used.size} postes, hasta el ${mx}${mx>24?' (2 telares unidos)':''}`;}
+ $('#need').innerHTML=`<div class="big">${total}<small>bandas</small></div><div class="counts">${ordered.map(c=>`<span class="count">${swatch(c.id)}<b>${m[c.id]}</b> ${c.name}</span>`).join('')}<span class="count">+ 1 clip S</span></div>
+ <div class="facts"><div class="fact"><span>Largo aprox.</span><b>${size.len.toFixed(1).replace('.',',')} cm</b> + clip</div><div class="fact"><span>Telar</span><b>${posts}</b></div><div class="fact"><span>Extensión</span><b>${size.ext?size.ext+(size.ext===1?' banda':' bandas'):'No hace falta'}</b></div><div class="fact"><span>Pasos</span><b>${plan.steps.length}</b></div></div>`;
+}
+function renderAllList(){
+ $('#allsum').textContent=`Ver todos los pasos (${plan.steps.length})`;
+ $('#all').innerHTML=plan.steps.map((s,i)=>`<li data-i="${i}">${renderText(s.text)}</li>`).join('');
+ $('#slider').max=plan.steps.length-1;
+ const firsts={};plan.steps.forEach((s,i)=>{if(firsts[s.phase]==null)firsts[s.phase]=i;});
+ $('#phases').innerHTML=Object.keys(PHASES).filter(k=>firsts[k]!=null).map(k=>`<button data-phase="${k}" data-i="${firsts[k]}">${PHASES[k]}</button>`).join('');
+}
+function renderStep(){
+ const s=plan.steps[state.step];
+ curState=simulate(plan,state.step);
+ const R=state.pattern==='fishtail'?3:maxRows();
+ const {html,G}=loomSVGContent(curState,s,R,{tail:state.pattern==='fishtail'});
+ const svg=$('#loomsvg');svg.setAttribute('viewBox',`0 0 ${G.W} ${G.H}`);svg.setAttribute('width',G.W);svg.setAttribute('height',G.H);svg.style.width=`min(${G.W}px, 34vw)`;
+ const g=$('#loomg');g.innerHTML=html;
+ const midX=G.cx, midY=(G.top+G.top+(R-1.5)*G.U)/2+G.U*0.25;
+ g.style.transformOrigin=`${midX}px ${midY}px`;
+ g.style.transform=curState.rotated?'rotate(180deg)':'none';
+ if(curState.rotated)g.querySelectorAll('.flip').forEach(t=>t.setAttribute('transform',`rotate(180 ${t.dataset.x} ${t.dataset.y})`));
+ $('#facing').textContent=curState.rotated?'Hacia ti: la muesca (números altos)':'Hacia ti: la pestaña (postes 1-2-3)';
+ $('#stepnum').textContent=`Paso ${state.step+1} de ${plan.steps.length}`;
+ $('#stepphase').textContent=PHASES[s.phase];
+ $('#steptext').innerHTML=renderText(s.text)+(curState.errors.length?`<div class="err">Revisa este paso.</div>`:'');
+ $('#slider').value=state.step;
+ $('#prev').disabled=state.step===0;
+ $('#next').textContent=state.step===plan.steps.length-1?'Reiniciar':'Siguiente';
+ document.querySelectorAll('#phases button').forEach(b=>b.classList.toggle('on',b.dataset.phase===s.phase));
+ document.querySelectorAll('#all li').forEach((li,i)=>li.classList.toggle('cur',i===state.step));
+ if(window.V3)V3.update();
+}
+function renderAll(){recompute();renderPatterns();renderSettings();renderNeed();renderAllList();renderStep();if(window.V3)V3.rebuildAll();save();}
+function goto(i){state.step=clamp(i,0,plan.steps.length-1);renderStep();}
+
+/* ---------- eventos ---------- */
+$('#patterns').addEventListener('click',e=>{const b=e.target.closest('.pcard');if(!b)return;state.pattern=b.dataset.k;state.step=0;state.openRole=null;stopPlay();renderAll();});
+$('#settings').addEventListener('click',e=>{
+ const t=e.target.closest('button');if(!t)return;
+ const cols=state.colors[state.pattern];
+ if(t.dataset.loom){state.loom=+t.dataset.loom;state.step=0;}
+ else if(t.dataset.w){state.wrist=clamp(state.wrist+(+t.dataset.w),8,30);}
+ else if(t.dataset.open){state.openRole=state.openRole===t.dataset.open?null:t.dataset.open;renderSettings();return;}
+ else if(t.dataset.add){const r=PATTERNS[state.pattern].roles.find(x=>x.key===t.dataset.role);if(r.multi){if(cols[r.key].length<12)cols[r.key].push(t.dataset.add);}else{cols[r.key]=[t.dataset.add];state.openRole=null;}}
+ else if(t.dataset.rm!=null){const r=PATTERNS[state.pattern].roles.find(x=>x.key===t.dataset.role);if(r.multi&&cols[r.key].length>1)cols[r.key].splice(+t.dataset.rm,1);else{state.openRole=r.key;renderSettings();return;}}
+ else if(t.dataset.preset){cols[t.dataset.role]=PRESETS[t.dataset.preset].slice();}
+ else return;
+ renderAll();
+});
+$('#settings').addEventListener('change',e=>{
+ if(e.target.id==='wrist'){const v=parseFloat(String(e.target.value).replace(',','.'));if(!isNaN(v))state.wrist=clamp(v,8,30);renderAll();}
+ if(e.target.dataset.opt){state.opts[state.pattern][e.target.dataset.opt]=e.target.checked;state.step=0;renderAll();}
+});
+$('#prev').onclick=()=>goto(state.step-1);
+$('#next').onclick=()=>goto(state.step===plan.steps.length-1?0:state.step+1);
+$('#slider').oninput=e=>goto(+e.target.value);
+$('#all').addEventListener('click',e=>{const li=e.target.closest('li');if(li)goto(+li.dataset.i);});
+$('#phases').addEventListener('click',e=>{const b=e.target.closest('button');if(b)goto(+b.dataset.i);});
+let timer=null;
+function stopPlay(){clearInterval(timer);timer=null;$('#play').textContent='▶︎▶︎';$('#play').setAttribute('aria-label','Reproducir pasos');}
+$('#play').onclick=()=>{if(timer){stopPlay();return;}$('#play').textContent='❚❚';$('#play').setAttribute('aria-label','Pausar');timer=setInterval(()=>{if(state.step>=plan.steps.length-1){stopPlay();return;}goto(state.step+1);},1500);};
+document.addEventListener('keydown',e=>{if(e.target.matches('input'))return;if(e.key==='ArrowRight')goto(state.step+1);if(e.key==='ArrowLeft')goto(state.step-1);});
+
+renderAll();
+
+/* ================= 3D ================= */
+(function(){
+ if(!window.THREE){$('#three-fallback').hidden=false;$('#hint3d').hidden=true;return;}
+ const wrap=$('#three-wrap');
+ let renderer;
+ try{renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});}catch(e){$('#three-fallback').hidden=false;return;}
+ renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
+ wrap.appendChild(renderer.domElement);
+ const scene=new THREE.Scene();
+ const camera=new THREE.PerspectiveCamera(38,1,0.1,300);
+ scene.add(new THREE.HemisphereLight(0xffffff,0x6a4a6a,0.95));
+ const dl=new THREE.DirectionalLight(0xffffff,0.75);dl.position.set(5,12,7);scene.add(dl);
+ const dl2=new THREE.DirectionalLight(0xffe6f2,0.3);dl2.position.set(-6,4,-5);scene.add(dl2);
+ const loomRoot=new THREE.Group(), loomBase=new THREE.Group(), bandG=new THREE.Group(), bracG=new THREE.Group();
+ loomRoot.add(loomBase);loomRoot.add(bandG);scene.add(loomRoot);scene.add(bracG);
+ const mats={};
+ const mat=(hex,em)=>{const k=hex+(em?'e':'');if(!mats[k]){mats[k]=new THREE.MeshStandardMaterial({color:new THREE.Color(hex),roughness:.42,metalness:0,emissive:em?new THREE.Color(hex):new THREE.Color(0),emissiveIntensity:em?.35:0});}return mats[k];};
+ const orbit={theta:0.7,phi:1.0,r:16,target:new THREE.Vector3(0,0,0),auto:true};
+ let rows=16, rotTarget=0;
+ const X=x=>x*0.95;
+ let zc=0;
+ const P3=id=>{const {x,y}=postXY(id);return new THREE.Vector3(X(x),0,-(y-zc));};
+ const lvl=h=>0.13+h*0.055;
+ function clearG(g){while(g.children.length){const o=g.children.pop();o.traverse(n=>{if(n.geometry)n.geometry.dispose();if(n.material&&n.material.map)n.material.map.dispose();});}}
+ function buildLoom(){
+  clearG(loomBase);
+  rows=state.pattern==='fishtail'?3:maxRows();zc=(rows-1.5)/2;
+  const len=rows-0.5+1.1;
+  const base=new THREE.Mesh(new THREE.BoxGeometry(2.9,0.3,len),new THREE.MeshStandardMaterial({color:0xe9559f,roughness:.6}));
+  base.position.set(0,-0.15,0);loomBase.add(base);
+  const tab=new THREE.Mesh(new THREE.BoxGeometry(0.8,0.3,0.6),base.material);tab.position.set(0,-0.15,len/2+0.15);loomBase.add(tab);
+  const pmat=new THREE.MeshStandardMaterial({color:0xc21a68,roughness:.5});
+  const pg=new THREE.CylinderGeometry(0.15,0.17,0.62,16), fg=new THREE.CylinderGeometry(0.23,0.23,0.06,18);
+  for(let id=1;id<=3*rows;id++){
+   const p=P3(id);
+   const m=new THREE.Mesh(pg,pmat);m.position.set(p.x,0.31,p.z);loomBase.add(m);
+   const f=new THREE.Mesh(fg,pmat);f.position.set(p.x,0.62,p.z);loomBase.add(f);
+   const cv=document.createElement('canvas');cv.width=cv.height=64;const cx=cv.getContext('2d');cx.font='bold 34px Nunito, sans-serif';cx.textAlign='center';cx.textBaseline='middle';cx.lineWidth=7;cx.strokeStyle='#8e0f4c';cx.strokeText(String(id),32,34);cx.fillStyle='#fff';cx.fillText(String(id),32,34);
+   const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),depthTest:false}));sp.scale.set(.34,.34,1);sp.position.set(p.x,0.86,p.z);loomBase.add(sp);
+  }
+ }
+ function tubeLoop(points,hex,em,rad=0.04){
+  const curve=new THREE.CatmullRomCurve3(points,true,'centripetal');
+  return new THREE.Mesh(new THREE.TubeGeometry(curve,Math.max(40,points.length*3),rad,6,true),mat(hex,em));
+ }
+ function ring(p,r,y,hex,em,rad=0.04){const t=new THREE.Mesh(new THREE.TorusGeometry(r,rad,6,28),mat(hex,em));t.rotation.x=Math.PI/2;t.position.set(p.x,y,p.z);return t;}
+ function updateBands(){
+  clearG(bandG);
+  const st=curState;const s=plan.steps[state.step];
+  const hl=s.band!=null?s.band:(s.type==='ftRound'?s.add:null);
+  const loopCount={};
+  const hOf=(id,p)=>{const a=st.stacks[p]||[];const i=a.findIndex(e=>e[0]===id);return i<0?0:i;};
+  Object.values(st.bands).forEach(b=>{
+   const ends=b.ends.filter(e=>e!=null);if(!ends.length||b.woven)return;
+   const uniq=[...new Set(ends)];const hex=hexOf(b.def.color);const em=b.id===hl;
+   if(b.def.kind==='cap'||uniq.length===1){
+    const p=P3(uniq[0]);const n=(loopCount[uniq[0]]=(loopCount[uniq[0]]||0)+1);const h=lvl(hOf(b.id,uniq[0]));
+    bandG.add(ring(p,0.22+n*0.03,h,hex,em));bandG.add(ring(p,0.22+n*0.03,h+0.045,hex,em));
+   } else if(uniq.length===3){
+    const ps=uniq.map(P3);const c=ps[0].clone().add(ps[1]).add(ps[2]).multiplyScalar(1/3);const h=lvl(Math.max(...uniq.map(p=>hOf(b.id,p))));
+    const pts=[];ps.forEach((p,i)=>{const q=ps[(i+1)%3];const e=p.clone().sub(c).normalize().multiplyScalar(0.22).add(p);e.y=h;pts.push(e);const m=p.clone().add(q).multiplyScalar(.5);const mo=m.clone().sub(c).normalize().multiplyScalar(0.06).add(m);mo.y=h;pts.push(mo);});
+    bandG.add(tubeLoop(pts,hex,em));
+   } else {
+    const p=P3(uniq[0]),q=P3(uniq[1]);const h=lvl(Math.max(hOf(b.id,uniq[0]),hOf(b.id,uniq[1])));
+    const reps=(b.def.count||1);
+    for(let r=0;r<reps;r++){
+     const rr=0.2+r*0.05;const d=q.clone().sub(p).normalize();const n=new THREE.Vector3(-d.z,0,d.x);const pts=[];
+     for(let i=0;i<=8;i++){const a=-Math.PI/2+Math.PI*i/8;pts.push(q.clone().add(d.clone().multiplyScalar(Math.cos(a)*rr)).add(n.clone().multiplyScalar(Math.sin(a)*rr)).setY(h+r*0.04));}
+     for(let i=0;i<=8;i++){const a=Math.PI/2+Math.PI*i/8;pts.push(p.clone().add(d.clone().multiplyScalar(Math.cos(a)*rr)).add(n.clone().multiplyScalar(Math.sin(a)*rr)).setY(h+r*0.04));}
+     if(b.def.twist){const mid=pts.length/2;}
+     bandG.add(tubeLoop(pts,hex,em));
+    }
+   }
+  });
+  if(st.woven.length){
+   const a=P3(2),b=P3(5);const c=a.clone().add(b).multiplyScalar(.5);
+   st.woven.slice(-60).forEach((id,i,arr)=>{const k=arr.length-1-i;const t=new THREE.Mesh(new THREE.TorusGeometry(0.26,0.05,6,24),mat(hexOf(st.bands[id].def.color)));t.position.set(c.x,-0.42-k*0.075,c.z);t.rotation.x=Math.PI/2+(k%2?0.45:-0.45);bandG.add(t);});
+  }
+  rotTarget=st.rotated?Math.PI:0;
+ }
+ /* manilla aproximada */
+ function frame(th){return {T:new THREE.Vector3(-Math.sin(th),0,Math.cos(th)),N:new THREE.Vector3(Math.cos(th),0,Math.sin(th)),B:new THREE.Vector3(0,1,0)};}
+ const RB=2.5;
+ function capsule(len,w,tube){
+  const a=Math.max(0,len/2-w),pts=[];
+  for(let i=0;i<=10;i++){const t=-Math.PI/2+Math.PI*i/10;pts.push(new THREE.Vector3(a+Math.cos(t)*w,Math.sin(t)*w,0));}
+  for(let i=0;i<=10;i++){const t=Math.PI/2+Math.PI*i/10;pts.push(new THREE.Vector3(-a+Math.cos(t)*w,Math.sin(t)*w,0));}
+  return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts,true,'centripetal'),48,tube,8,true);
+ }
+ function link(th,u,hex,mode,o={}){
+  const f=frame(th);const w=o.w||0.15,len=Math.max(o.len||2*w,2*w),tube=o.tube||0.05;
+  const m=new THREE.Mesh(capsule(len,w,tube),mat(hex));
+  let x,y,z;
+  if(mode==='flat'){x=f.T;y=f.B;z=f.N;}
+  else if(mode==='edge'){x=f.T;y=f.N;z=f.B.clone().negate();}
+  else {x=f.B;y=f.N;z=f.T;}
+  if(o.spin){const a=o.spin;const x2=x.clone().multiplyScalar(Math.cos(a)).add(y.clone().multiplyScalar(Math.sin(a)));const y2=y.clone().multiplyScalar(Math.cos(a)).sub(x.clone().multiplyScalar(Math.sin(a)));x=x2;y=y2;}
+  if(o.tilt){const a=o.tilt;const z2=z.clone().multiplyScalar(Math.cos(a)).add(x.clone().multiplyScalar(Math.sin(a)));const x2=x.clone().multiplyScalar(Math.cos(a)).sub(z.clone().multiplyScalar(Math.sin(a)));x=x2;z=z2;}
+  m.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(x,y,z));
+  const pos=f.N.clone().multiplyScalar(RB+(o.out||0)).add(new THREE.Vector3(0,u,0));
+  if(o.shift)pos.add(o.shift);
+  m.position.copy(pos);bracG.add(m);return m;
+ }
+ function chainLane(colors,u,arc,start,o={}){
+  const n=colors.length;if(!n)return;const d=arc/n;const len=RB*d*1.4;const w=o.w||Math.min(0.16,len*0.3);
+  colors.forEach((c,i)=>{const th=start+d*(i+.5);const mode=i%2?'edge':'flat';link(th,u,hexOf(c),mode,{len,w,tube:o.tube});if(o.double)link(th,u,hexOf(c),mode,{len:len*1.05,w:w*1.35,tube:o.tube});});
+ }
+ function buildBracelet(){
+  clearG(bracG);
+  const pv=plan.preview;const gap=0.22;const arc=Math.PI*2-gap;const start=gap/2;
+  if(pv.kind==='chain'){chainLane(pv.links,0,arc,start,{double:pv.double,tube:pv.double?0.055:0.05});}
+  else if(pv.kind==='fishtail'){
+   const n=pv.links.length;const d=arc/n;
+   pv.links.forEach((c,i)=>{const th=start+d*(i+.5);link(th,0,hexOf(c),'ring',{w:0.3,tube:0.065,tilt:i%2?0.55:-0.55});});
+  }
+  else if(pv.kind==='triple'){
+   const ext=pv.ext||[];const mainArc=arc*(pv.center.length/(pv.center.length+ext.length*0.55));
+   chainLane(pv.left,-0.36,mainArc,start);chainLane(pv.center,0,mainArc,start);chainLane(pv.right,0.36,mainArc,start);
+   if(pv.unions.length){const d=mainArc/pv.center.length;pv.unions.forEach((c,i)=>{const th=start+d*(i+1.5);link(th,0,hexOf(c),'flat',{len:0.8,w:0.1,tube:0.04,spin:Math.PI/2,out:0.07});});}
+   link(start+mainArc-0.04,0,hexOf(pv.cap),'flat',{w:0.12,tube:0.06,out:0.06});
+   if(ext.length)chainLane(ext,0,arc-mainArc,start+mainArc);
+  }
+  else if(pv.kind==='starburst'){
+   const ext=pv.ext||[];const nRows=pv.border.length;const mainArc=arc*(nRows/(nRows+ext.length*0.5));
+   chainLane(pv.border,-0.48,mainArc,start);chainLane(pv.borderR,0.48,mainArc,start);
+   const ns=pv.stars.length;const d=mainArc/ns;
+   pv.stars.forEach((c,i)=>{const th=start+d*(i+.5);for(let j=0;j<6;j++){const a=j*Math.PI/3;const f=frame(th);const dir=f.T.clone().multiplyScalar(Math.cos(a)*0.24).add(f.B.clone().multiplyScalar(Math.sin(a)*0.22));link(th,0,hexOf(c),'flat',{len:0.46,w:0.1,tube:0.05,spin:a,shift:dir,out:0.05});}
+    link(th,0,hexOf(pv.cap),'flat',{w:0.09,tube:0.055,out:0.1});});
+   if(ext.length)chainLane(ext,0,arc-mainArc,start+mainArc);
+  }
+  // clip
+  const cg=new THREE.Mesh(new THREE.TorusGeometry(0.14,0.03,8,24,Math.PI*1.6),new THREE.MeshStandardMaterial({color:0xb8b8c4,roughness:.25,metalness:.5}));
+  const f=frame(0);cg.position.copy(f.N.clone().multiplyScalar(RB));cg.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(f.T,f.N,f.B.clone().negate()));bracG.add(cg);
+ }
+ function applyView(){
+  const brac=state.view==='brac';
+  loomRoot.visible=!brac;bracG.visible=brac;
+  $('#v-loom').setAttribute('aria-pressed',!brac);$('#v-brac').setAttribute('aria-pressed',brac);
+  if(brac){orbit.r=9.5;orbit.phi=0.85;orbit.target.set(0,0,0);orbit.auto=true;}
+  else{orbit.r=Math.max(7,rows*1.3+4);orbit.phi=0.75;orbit.theta=0.45;orbit.target.set(0,0,0);orbit.auto=false;}
+ }
+ $('#v-loom').onclick=()=>{state.view='loom';applyView();};
+ $('#v-brac').onclick=()=>{state.view='brac';buildBracelet();applyView();};
+ // control de órbita
+ const ptrs=new Map();let pinch0=0,r0=0;
+ const el=renderer.domElement;
+ el.addEventListener('pointerdown',e=>{el.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});orbit.auto=false;if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinch0=Math.hypot(a.x-b.x,a.y-b.y);r0=orbit.r;}});
+ el.addEventListener('pointermove',e=>{if(!ptrs.has(e.pointerId))return;const prev=ptrs.get(e.pointerId);const cur={x:e.clientX,y:e.clientY};ptrs.set(e.pointerId,cur);
+  if(ptrs.size===1){orbit.theta-=(cur.x-prev.x)*0.008;orbit.phi=clamp(orbit.phi-(cur.y-prev.y)*0.008,0.15,Math.PI-0.15);}
+  else if(ptrs.size===2){const [a,b]=[...ptrs.values()];const d=Math.hypot(a.x-b.x,a.y-b.y);if(pinch0)orbit.r=clamp(r0*pinch0/d,3,40);}});
+ const up=e=>{ptrs.delete(e.pointerId);if(ptrs.size<2)pinch0=0;};
+ el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);
+ el.addEventListener('wheel',e=>{e.preventDefault();orbit.r=clamp(orbit.r*(1+Math.sign(e.deltaY)*0.1),3,40);},{passive:false});
+ function resize(){const w=wrap.clientWidth,h=wrap.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+ new ResizeObserver(resize).observe(wrap);resize();
+ const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function tick(){
+  requestAnimationFrame(tick);
+  if(document.hidden)return;
+  if(orbit.auto&&!reduce)orbit.theta+=0.004;
+  const cur=loomRoot.rotation.y;loomRoot.rotation.y=reduce?rotTarget:cur+(rotTarget-cur)*0.08;
+  const {r,phi,theta,target}=orbit;
+  camera.position.set(target.x+r*Math.sin(phi)*Math.sin(theta),target.y+r*Math.cos(phi),target.z+r*Math.sin(phi)*Math.cos(theta));
+  camera.lookAt(target);
+  renderer.render(scene,camera);
+ }
+ window.V3={update(){updateBands();},rebuildAll(){buildLoom();updateBands();if(state.view==='brac')buildBracelet();applyView();}};
+ V3.rebuildAll();loomRoot.rotation.y=rotTarget;
+ tick();
+})();
+</script>
+<script>
+(function(){
+ var ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+ var standalone=window.navigator.standalone||window.matchMedia("(display-mode: standalone)").matches;
+ if(ios&&!standalone)document.getElementById("install").hidden=false;
+ if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});
+})();
+</script>
+</body>
+</html>
